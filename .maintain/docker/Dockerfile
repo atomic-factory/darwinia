@@ -4,13 +4,13 @@
 
 FROM rust:1 as builder
 
-ARG RUST_TOOLCHAIN=nightly-2020-10-06
+ARG RUST_TOOLCHAIN=nightly-2021-05-11
 ENV CARGO_TERM_COLOR=always
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        clang \
-        libclang-dev \
-        cmake \
+    clang \
+    libclang-dev \
+    cmake \
     && rm -rf /var/lib/apt/lists/*
 
 RUN rustup default ${RUST_TOOLCHAIN} \
@@ -28,7 +28,7 @@ RUN cargo build --release
 FROM debian:stable-slim
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        openssl \
+    openssl \
     && rm -rf /var/lib/apt/lists/*
 
 COPY --from=builder /src/target/release/darwinia /usr/local/bin/
